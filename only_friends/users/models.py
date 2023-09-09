@@ -22,7 +22,7 @@ class User(AbstractUser):
     def add_friend(self, user: 'User'):
         self.friends.add(user)
 
-    def remove_friends(self, user: 'User'):
+    def remove_friend(self, user: 'User'):
         self.friends.remove(user)
 
     def is_friend(self, user: 'User') -> bool:
