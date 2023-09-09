@@ -32,3 +32,16 @@ class TestServices(TestCase):
         user.add_friend(other)
         with self.assertRaises(FriendError):
             services.friend_add(user, other)
+
+    def test_friend_remove(self):
+        user = UserFactory()
+        other = UserFactory()
+        user.add_friend(other)
+        services.friend_remove(user, other)
+        self.assertFalse(user.is_friend(other))
+
+    def test_friend_remove_fail(self):
+        user = UserFactory()
+        other = UserFactory()
+        with self.assertRaises(FriendError):
+            services.friend_remove(user, other)
