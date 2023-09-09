@@ -5,6 +5,9 @@ from users.models import User
 
 
 def friend_add(user: User, other: User) -> FriendOffer:
+    if user == other:
+        error = 'You can\'t be friend with yourself.'
+        raise FriendError(error)
     if user.is_friend(other):
         error = 'You are already friends.'
         raise FriendError(error)
