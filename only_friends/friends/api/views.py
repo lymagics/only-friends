@@ -25,3 +25,20 @@ def friend_add(request, pk: int):
     except FriendError as e:
         detail = {'detail': str(e)}
         return Response(detail, status=400)
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def friend_remove(request, pk: int):
+    user = user_get(pk)
+    if user is None:
+        raise Http404
+    try:
+        services.friend_remove(
+            request.user, user,
+        )
+        return Response(status=200)
+    except FriendError as e:
+        detail = {'detail': str(e)}
+        return Response(detail, status=400)

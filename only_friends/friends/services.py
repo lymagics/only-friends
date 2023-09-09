@@ -26,3 +26,4 @@ def friend_remove(user: User, other: User):
         error = 'You are not friends.'
         raise FriendError(error)
     user.remove_friend(other)
+    other.remove_friend(user)
