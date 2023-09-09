@@ -19,3 +19,10 @@ def friend_add(user: User, other: User) -> FriendOffer:
     offer.full_clean()
     offer.save()
     return offer
+
+
+def friend_remove(user: User, other: User):
+    if not user.is_friend(other):
+        error = 'You are not friends.'
+        raise FriendError(error)
+    user.remove_friend(other)
