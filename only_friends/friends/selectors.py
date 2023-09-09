@@ -7,4 +7,4 @@ def friend_offer_get(user: User, other: User) -> FriendOffer:
 
 
 def friend_list(user: User) -> list[User]:
-    return User.friends.all()
+    return user.friends.all()
