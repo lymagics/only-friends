@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
 
+    'friends.apps.FriendsConfig',
     'users.apps.UsersConfig',
 ]
 
