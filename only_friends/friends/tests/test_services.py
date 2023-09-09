@@ -59,3 +59,17 @@ class TestServices(TestCase):
             services.friend_offer_accept(
                 UserFactory(), UserFactory(),
             )
+
+    def test_friend_offer_refuse(self):
+        offer = FriendOfferFactory()
+        services.friend_offer_refuse(
+            offer.user, offer.other,
+        )
+        self.assertFalse(offer.user.is_friend(offer.other))
+        self.assertFalse(offer.other.is_friend(offer.user))
+
+    def test_friend_offer_refuse_fail(self):
+        with self.assertRaises(FriendError):
+            services.friend_offer_refuse(
+                UserFactory(), UserFactory(),
+            )
