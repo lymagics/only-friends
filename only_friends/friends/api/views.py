@@ -59,3 +59,20 @@ def friend_accept(request, pk: int):
     except FriendError as e:
         detail = {'detail': str(e)}
         return Response(detail, status=400)
+
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def friend_refuse(request, pk: int):
+    user = user_get(pk)
+    if user is None:
+        raise Http404
+    try:
+        services.friend_offer_refuse(
+            user, request.user
+        )
+        return Response(status=200)
+    except FriendError as e:
+        detail = {'detail': str(e)}
+        return Response(detail, status=400)
