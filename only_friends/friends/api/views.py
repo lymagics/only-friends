@@ -5,8 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from auth.authentication import JWTAuthentication
-from friends import services
+from core.decorators import output
+from friends import services, selectors
 from friends.errors import FriendError
+from users.api.schemas import UserOut
 from users.selectors import user_get
 
 
@@ -76,3 +78,11 @@ def friend_refuse(request, pk: int):
     except FriendError as e:
         detail = {'detail': str(e)}
         return Response(detail, status=400)
+    
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+@output(UserOut, many=True)
+def friend_list(request):
+    return selectors.friend_list(request.user)
