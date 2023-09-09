@@ -10,6 +10,10 @@ class User(AbstractUser):
     """
     email = models.EmailField(unique=True)
 
+    friends = models.ManyToManyField(
+        'User', blank=True,
+    )
+
     @property
     def jwt_token(self) -> str:
         payload = {'id': self.pk}
