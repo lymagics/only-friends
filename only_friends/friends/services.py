@@ -38,3 +38,11 @@ def friend_offer_accept(user: User, other: User):
         error = 'You didn\'t recieve offer.'
         raise FriendError(error)
     offer.accept()
+
+
+def friend_offer_refuse(user: User, other: User):
+    offer = selectors.friend_offer_get(user, other)
+    if offer is None:
+        error = 'You didn\'t recieve offer.'
+        raise FriendError(error)
+    offer.refuse()
