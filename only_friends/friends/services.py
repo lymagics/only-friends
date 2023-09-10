@@ -4,7 +4,7 @@ from friends import selectors
 from friends.errors import FriendError
 from friends.models import FriendOffer
 from users.models import User
-from notifications.models import Notification
+from notifications.services import notify_create
 
 
 @transaction.atomic
@@ -22,13 +22,11 @@ def friend_add(user: User, other: User) -> FriendOffer:
         error = 'User already sent you offer.'
         raise FriendError(error)
     
-    notification = Notification(
-        name='friends_request',
-        user=other,
-        payload={'from': user.pk},
-
+    notification = notify_create(
+        other, 'friends_request', payload={
+            'from': user.pk,
+        }
     )
-    notification.save()
 
     offer = FriendOffer(
         user=user, 
