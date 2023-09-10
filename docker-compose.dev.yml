@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  only_friends:
+    extends:
+      file: docker-compose.yml
+      service: only_friends
+    command: >
+      sh -c "python /waitlist/wait_for_postgres.py &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./only_friends:/only_friends
+    ports:
+      - '8000:8000'
+
+  db:
+    extends:
+      file: docker-compose.yml
+      service: db
+    volumes:
+      - only_friends-data:/var/lib/postgresql/data
+
+volumes:
+  only_friends-data:
