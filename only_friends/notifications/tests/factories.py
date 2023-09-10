@@ -7,7 +7,8 @@ from notifications.models import Notification
 
 class NotificationFactory(DjangoModelFactory):
     name = factory.Faker('word')
-    payload = factory.Faker('pydict')
+    payload = {}
+    seen = factory.Faker('pybool')
     user = factory.SubFactory(UserFactory)
 
     class Meta:
