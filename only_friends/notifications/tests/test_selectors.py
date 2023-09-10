@@ -22,3 +22,12 @@ class TestSelectors(TestCase):
         new_notification = NotificationFactory(user=user)
         notifications = selectors.notify_list(user, status='all')
         self.assertIn(new_notification, notifications)
+
+    def test_notify_count(self):
+        user = UserFactory()
+        NotificationFactory(user=user, seen=True)
+        NotificationFactory(user=user, seen=False)
+        count = selectors.notify_count(user)
+        self.assertEqual(1, count['seen'])
+        self.assertEqual(1, count['unseen'])
+        self.assertEqual(2, count['all'])
