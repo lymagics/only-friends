@@ -4,8 +4,10 @@ from friends import selectors
 from friends.errors import FriendError
 from friends.models import FriendOffer
 from users.models import User
+from notifications.models import Notification
 
 
+@transaction.atomic
 def friend_add(user: User, other: User) -> FriendOffer:
     if user == other:
         error = 'You can\'t be friend with yourself.'
@@ -20,7 +22,19 @@ def friend_add(user: User, other: User) -> FriendOffer:
         error = 'User already sent you offer.'
         raise FriendError(error)
     
-    offer = FriendOffer(user=user, other=other)
+    notification = Notification(
+        name='friends_request',
+        user=other,
+        payload={'from': user.pk},
+
+    )
+    notification.save()
+
+    offer = FriendOffer(
+        user=user, 
+        other=other, 
+        notification=notification
+    )
     offer.full_clean()
     offer.save()
     return offer
