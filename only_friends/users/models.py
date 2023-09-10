@@ -18,7 +18,7 @@ class User(AbstractUser):
     def jwt_token(self) -> str:
         payload = {'id': self.pk}
         return jwt_encode(payload)
-    
+
     def add_friend(self, user: 'User'):
         self.friends.add(user)
 

@@ -21,7 +21,7 @@ def friend_add(user: User, other: User) -> FriendOffer:
     if selectors.friend_offer_get(other, user):
         error = 'User already sent you offer.'
         raise FriendError(error)
-    
+
     notification = notify_create(
         other, 'friends_request', payload={
             'from': user.pk,
@@ -29,9 +29,9 @@ def friend_add(user: User, other: User) -> FriendOffer:
     )
 
     offer = FriendOffer(
-        user=user, 
-        other=other, 
-        notification=notification
+        user=user,
+        other=other,
+        notification=notification,
     )
     offer.full_clean()
     offer.save()

@@ -11,8 +11,8 @@ from users.api.schemas import UserIn
 def user_create(request):
     data = request.data
     services.user_create(
-        data['email'], 
-        data['username'], 
+        data['email'],
+        data['username'],
         data['password'],
     )
     return Response(status=200)

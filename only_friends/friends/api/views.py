@@ -78,7 +78,7 @@ def friend_refuse(request, pk: int):
     except FriendError as e:
         detail = {'detail': str(e)}
         return Response(detail, status=400)
-    
+
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
