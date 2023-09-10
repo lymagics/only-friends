@@ -1,3 +1,5 @@
+from django.db import transaction
+
 from friends import selectors
 from friends.errors import FriendError
 from friends.models import FriendOffer
@@ -24,6 +26,7 @@ def friend_add(user: User, other: User) -> FriendOffer:
     return offer
 
 
+@transaction.atomic
 def friend_remove(user: User, other: User):
     if not user.is_friend(other):
         error = 'You are not friends.'
@@ -32,6 +35,7 @@ def friend_remove(user: User, other: User):
     other.remove_friend(user)
 
 
+@transaction.atomic
 def friend_offer_accept(user: User, other: User):
     offer = selectors.friend_offer_get(user, other)
     if offer is None:
