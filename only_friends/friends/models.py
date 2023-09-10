@@ -27,7 +27,9 @@ class FriendOffer(BaseModel):
     def accept(self):
         self.other.add_friend(self.user)
         self.user.add_friend(self.other)
+        self.notification.delete()
         self.delete()
 
     def refuse(self):
+        self.notification.delete()
         self.delete()
