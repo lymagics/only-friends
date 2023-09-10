@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from auth.authentication import JWTAuthentication
 from core.decorators import output
-from notifications import selectors
+from notifications import selectors, services
 from notifications.api.schemas import NotificationOut
 
 
@@ -14,7 +14,9 @@ from notifications.api.schemas import NotificationOut
 @output(NotificationOut, many=True)
 def notify_list(request):
     status = request.query_params.get('status', 'all')
-    return selectors.notify_list(request.user, status=status)
+    notifications = selectors.notify_list(request.user, status=status)
+    services.notify_mark_seen(notifications)
+    return notifications
 
 
 @api_view(['GET'])
