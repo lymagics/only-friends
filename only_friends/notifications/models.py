@@ -10,6 +10,7 @@ class Notification(BaseModel):
     """
     name = models.CharField(max_length=120)
     payload = models.JSONField()
+    seen = models.BooleanField(default=False)
     
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
