@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  only_friends:
+    build: 
+      context: .
+      dockerfile: ./docker/Dockerfile
+    env_file:
+      - only_friends.env
+    depends_on:
+      - db
+
+  db:
+    image: postgres
+    env_file:
+      - db.env
